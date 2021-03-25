@@ -1,0 +1,318 @@
+@import 'variables';
+@import 'mixin';
+@import 'transition';
+@import 'element-ui';
+@import 'sidebar';
+@import 'style';
+@import "./font/iconfont.css";
+body {
+  height: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+}
+.background{
+  background: transparent;
+  //background-color: rgba(2,65,115,1);
+  padding: 10px;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+ul{
+  list-style: none;
+}
+#app {
+  height: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+div:focus {
+  outline: none;
+}
+
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+}
+.fl{
+  float: left;
+}
+.fr{
+  float: right;
+}
+// 溢出隐藏...
+.textOverflow{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pointer{
+  cursor: pointer;
+}
+// main-container global css
+.app-container {
+  padding: 20px;
+}
+.text-center{
+  text-align: center;
+}
+.padding5{
+  padding: 5px;
+}
+.marginTop30{
+  margin-top: 30px;
+}
+.marginTop20{
+  margin-top: 20px;
+}
+.marginTop10{
+  margin-top: 10px;
+}
+.linkWord {
+  color: white;
+}
+.linkWord:hover{
+  cursor: pointer;
+  color: #20a0ff;
+}
+.text-left{
+  text-align: left;
+}
+.text-right{
+  text-align: right;
+}
+.padding20{
+  padding: 20px;
+}
+.padding10{
+  padding: 10px;
+}
+.el-button--primary, .el-table th, .el-radio__input.is-checked .el-radio__inner, .el-pagination.is-background .el-pager li:not(.disabled).active{
+  background: $menuActiveText;
+  background-color: $menuActiveText;
+}
+.el-dialog__title, .el-radio__input.is-checked+.el-radio__label, .el-dialog__title{
+  font-weight: bold;
+  color: $menuActiveText;
+}
+.el-table--enable-row-hover .el-table__body tr:hover>td{
+  background-color:#E4EFFF
+}
+.el-table th, .el-pagination.is-background .el-pager li:not(.disabled).active{
+  color: $subMenuActiveText;
+}
+.el-table{
+  box-shadow:0px 0px 10px 0px rgba(55,64,94,0.2);
+}
+.el-menu-item-group__title{
+  padding: 0;
+}
+::-webkit-scrollbar {
+  /*滚动条整体样式*/
+  width : 10px;  /*高宽分别对应横竖滚动条的尺寸*/
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  border-radius: 10px;
+  //box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background   : rgba(144,147,153,0.3);
+}
+::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  background   : #ededed;
+}
+.el-form-item {
+  margin-bottom: 15px;
+  height: 41px;
+}
+.el-card__body{
+  padding: 10px;
+}
+.el-tabs--border-card {
+  background: transparent;
+  border: none;
+  box-shadow: unset;
+}
+.el-tabs--border-card>.el-tabs__content{
+  padding: 10px 0;
+}
+.el-tabs--border-card>.el-tabs__header{
+  border-bottom: 3px solid #3977F3;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.stationWrap .el-tabs--border-card>.el-tabs__header .el-tabs__item {
+  border: unset !important;
+}
+.el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active{
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+.el-popover--plain{
+  background:rgba(228,239,255, 1);
+  box-shadow:0px 4px 6px 0px rgba(128,128,128,0.28);
+  color:#3977F3;
+}
+.el-tabs__nav-scroll{
+  background-color: white;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.el-breadcrumb__inner{
+  line-height: 22px;
+  display: inline-block;
+  height: 22px;
+  .el-icon-location{
+    vertical-align: middle;
+    display: inline-block;
+  }
+}
+.searchItemWidth{
+  width: 210px !important;
+}
+.el-popover--plain{
+  font-size: 12px;
+}
+.el-dialog{
+  border-radius: 6px;
+}
+.roleManage .el-dialog__body {
+  padding: 0 !important;
+}
+.userCenter1 .el-card__body{
+  padding: 0 !important;
+}
+.dsflex{
+  display:flex;
+}
+.showIndexPage {
+  .top{
+    position:absolute;
+    top:-1px;
+    left:0px;
+    width:calc(100vw - 780px);
+    height: 2px;
+  }
+  .bottom{
+    position:absolute;
+    bottom:-1px;
+    left:0px;
+    width:calc(100vw - 780px);
+    height: 2px;
+  }
+  .left{
+    position:absolute;
+    left:calc(-50vh + 0px);
+    width:100vh;
+    height: 2px;
+    top:50%;
+    transform: rotate(90deg);
+  }
+  ::-webkit-scrollbar {
+    /*滚动条整体样式*/
+    width : 10px;  /*高宽分别对应横竖滚动条的尺寸*/
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    /*滚动条里面小方块*/
+    border-radius: 10px;
+    //box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
+    background   : rgba(0,245,255,1);
+  }
+  ::-webkit-scrollbar-track {
+    /*滚动条里面轨道*/
+    box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background   : rgba(12, 108, 162, .7);
+  }
+  .el-dialog{
+    position: fixed;
+    right:0;
+    left: unset;
+    height: 100vh;
+    overflow: hidden;
+    width: calc(100vw - 780px);
+    min-width: 1000px;
+  }
+  .el-dialog__header{
+    background: rgba(15,51,123,1);
+    .dialog-title{
+      >span{
+        color:#21FBFD;
+      }
+    }
+    .el-dialog__close{
+      color:#21FBFD;
+      font-size: 20px;
+    }
+  }
+  .el-dialog__body{
+    background: rgba(15,51,123,1);
+    height: calc(100vh - 60px);
+    overflow: auto;
+    .reportContainer{
+      background: rgba(15,51,123,1);
+      .reportTitle{
+        .name{
+          color:#fff;
+          font-size: 34px;
+        }
+        .reportInfo{
+          border-color: #fff;
+          >p{
+            color:#fff;
+          }
+        }
+      }
+      .content {
+        border-color: #fff;
+        .item{
+          border-color: #fff;
+          .contentTitle{
+            color:#fff;
+          }
+          .head{
+            >span{
+              background: #29A5B7;
+              color:#fff;
+            }
+          }
+          .body{
+            color:#fff;
+          }
+        }
+      }
+    }
+  }
+}
