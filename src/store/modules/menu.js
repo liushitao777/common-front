@@ -21,6 +21,12 @@ const actions = {
         reject(e)
       })
     })
+  },
+  cleanMenuList({commit}) {
+    return new Promise((resolve, reject) => {
+      commit("SET_MENU_LIST", "")
+      resolve("")
+    })
   }
 }
 

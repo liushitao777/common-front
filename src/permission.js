@@ -47,7 +47,7 @@ router.beforeEach(async(to, from, next) => {
       }
 
       if (!store.state.menu || !store.state.menu.menuList) { // 获取权限菜单
-        await store.dispatch('user/getInfo')
+        // await store.dispatch('user/getInfo')
         let routeList = await store.dispatch("menu/setMenuList")
         console.log("vuex-Store", store.state)
         console.log("权限菜单routeList", routeList)
@@ -93,13 +93,14 @@ router.afterEach(() => {
 })
 
 
-async function getButtonList(id){ //获取按钮权限
+async function getButtonList(id, next){ //获取按钮权限
   homeApi.getButtonByMenusUrl({id}).then(data => {
     // this.menuList = this.menuList1
     window.localStorage.setItem('btnList', JSON.stringify(data.data.data))
     if(!(data.data.data)){
       window.localStorage.setItem('btnList', JSON.stringify([]))
     }
+    next()
   }).catch(e => {
     this.$message.error({message: e.message ? e.message : e, center: true})
   })
@@ -139,8 +140,7 @@ function buttonAuth(to, from, next) {
           //   console.log("按钮权限2")
           //   next({path:to.path,query:{id:cItem.id}})
           // }
-          getButtonList(cItem.id)
-          next()
+          getButtonList(cItem.id, next)
         }
       })
     }else if(item.url==to.path){
@@ -153,8 +153,7 @@ function buttonAuth(to, from, next) {
       //   console.log("按钮权限4")
       //   next({path:to.path,query:{id:item.id}})
       // }
-      getButtonList(item.url)
-      next()
+      getButtonList(item.url, next)
     }else{
       // console.log("按钮权限5")
       next()

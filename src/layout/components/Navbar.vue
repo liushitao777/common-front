@@ -1,83 +1,22 @@
 <template>
   <div class="navbar">
     <div class="imgEa fl">
-      <img
-        class="logo"
-        src="@/assets/NavBar/logo_u57.png"
-        width="85.5"
-        height="40"
-      >
+      <img class="logo" src="@/assets/NavBar/logo_u57.png" width="85.5" height="40">
     </div>
-    <div
-      v-if="type === 'sjkf'"
-      class="imgEa fl"
-    >
+    <div class="imgEa fl">
       <span class="title">{{ settings.title }}</span>
     </div>
-    <div
-      v-else-if="type === 'AI'"
-      class="imgEa fl"
-    >
-      <span class="title">中电科技AI平台</span>
-    </div>
-    <div
-      v-if="type === 'sjkf'"
-      class="buttonEa fl"
-    >
-      <!--      <router-link to="/indexPage" type="primary" class="linkItem" data-beforeContent="首页">首页</router-link>-->
-      <!--      <router-link to="/dataResource" type="primary" class="linkItem" data-beforeContent="数据资源目录" active-class="activeClass">数据资源目录</router-link>-->
-      <!--      <router-link to="/analysis" type="primary" class="linkItem" data-beforeContent="统计分析" active-class="activeClass">统计分析</router-link>-->
-      <!--      <router-link to="/test" type="primary" class="linkItem">测试</router-link>-->
-    </div>
-    <div
-      v-else-if="type === 'AI'"
-      :span="8"
-      class="buttonEa fl"
-    >
-      <router-link
-        to="/index"
-        type="primary"
-        class="linkItem"
-      >首页</router-link>
-      <router-link
-        to="/dataResource"
-        type="primary"
-        class="linkItem"
-      >模型训练</router-link>
-      <router-link
-        to="/analysis"
-        type="primary"
-        class="linkItem"
-      >Demo</router-link>
-      <router-link
-        to="/test"
-        type="primary"
-        class="linkItem"
-      >场景训练</router-link>
-    </div>
-    <div
-      v-if="token"
-      class="right-menu fr"
-    >
-      <el-dropdown
-        class="avatar-container right-menu-item hover-effect"
-        trigger="hover"
-      >
+    <div v-if="token" class="right-menu fr">
+      <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="hover">
         <div class="avatar-wrapper">
-          <img
-            src="../../assets/login/user.png"
-            class="user-avatar"
-          >
+          <img src="../../assets/login/user.png" class="user-avatar">
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
           <router-link to="/userCenter/index">
             <el-dropdown-item>个人中心</el-dropdown-item>
           </router-link>
-          <el-link
-            :underline="false"
-            @click="logoutHandleClick"
-          >
+          <el-link :underline="false" @click="logoutHandleClick">
             <el-dropdown-item>退出登陆</el-dropdown-item>
           </el-link>
         </el-dropdown-menu>
@@ -115,8 +54,10 @@ export default {
   methods: {
     logoutHandleClick() {
       this.$store.dispatch("user/logout").then(() => {
-        this.$router.push({
-          path: "/login"
+        this.$store.dispatch("menu/cleanMenuList").then(data => {
+          this.$router.push({
+            path: "/login"
+          })
         })
       })
     },
