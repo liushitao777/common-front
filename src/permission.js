@@ -14,8 +14,6 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 const whiteList = ['/login', '/dataResource', '/dataResourceDetail', '/analysis'] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
-  console.log("to", to.path)
-  // 根据权限菜单动态添加路由
   // start progress bar
   NProgress.start()
 
@@ -32,9 +30,24 @@ router.beforeEach(async(to, from, next) => {
     } else if (to.path == '/404') {
       next()
     } else {
+      // 获取用户信息
+      const hasGetUserInfo = store.getters.name
+      if (!hasGetUserInfo) { // 是否有用户信息
+        try {
+          // get user info
+          await store.dispatch('user/getInfo')
+          console.log("noUserInfo")
+        } catch (error) {
+          // remove token and go to login page to re-login
+          await store.dispatch('user/resetToken')
+          Message.error(error || 'Has Error')
+          next(`/login?redirect=${to.path}`)
+          NProgress.done()
+        }
+      }
 
       if (!store.state.menu || !store.state.menu.menuList) { // 获取权限菜单
-        console.log("添加路由")
+        await store.dispatch('user/getInfo')
         let routeList = await store.dispatch("menu/setMenuList")
         console.log("vuex-Store", store.state)
         console.log("权限菜单routeList", routeList)
@@ -48,38 +61,23 @@ router.beforeEach(async(to, from, next) => {
         //   children: routerConfig
         // }])
       }
+
       // 判断页面权限
       if (!pageAuth(to, from, next)) {
-        // next("/404")
-      }
-      //按钮权限
-      buttonAuth(to, from, next)
-      const hasGetUserInfo = store.getters.name
-      if (hasGetUserInfo) { // 是否有用户信息
-        console.log("hasUserInfo")
-        next()
+        const firstPage = getRouteMap(routerConfig[0].children, store.state.menu.menuList.back)[0].path
+        next(firstPage)
+        NProgress.done()
       } else {
-        try {
-          // get user info
-          await store.dispatch('user/getInfo')
-          console.log("noUserInfo")
-          next()
-        } catch (error) {
-          // remove token and go to login page to re-login
-          await store.dispatch('user/resetToken')
-          Message.error(error || 'Has Error')
-          next(`/login?redirect=${to.path}`)
-          NProgress.done()
-        }
+        //按钮权限
+        buttonAuth(to, from, next)
       }
     }
   } else {
     /* has no token*/
-
     if (whiteList.indexOf(to.path) !== -1) {
-
       // in the free login whitelist, go directly
       next()
+      NProgress.done()
     } else {
       // other pages that do not have permission to access are redirected to the login page.
       next(`/login?redirect=${to.path}`)
@@ -132,29 +130,33 @@ function buttonAuth(to, from, next) {
     if(item.children){
       item.children.map(cItem=>{
         if(cItem.url==to.path){
-          if(to.query.id){
-            getButtonList(to.query.id)
-            console.log("按钮权限1")
-            next()
-          }else{
-            getButtonList(cItem.id)
-            console.log("按钮权限2")
-            next({path:to.path,query:{id:cItem.id}})
-          }
+          // if(to.query.id){
+          //   getButtonList(to.query.id)
+          //   console.log("按钮权限1")
+          //   next()
+          // }else{
+          //   getButtonList(cItem.id)
+          //   console.log("按钮权限2")
+          //   next({path:to.path,query:{id:cItem.id}})
+          // }
+          getButtonList(cItem.id)
+          next()
         }
       })
     }else if(item.url==to.path){
-      if(to.query.id){
-        getButtonList(to.query.id)
-        console.log("按钮权限3")
-        next()
-      }else{
-        getButtonList(item.id)
-        console.log("按钮权限4")
-        next({path:to.path,query:{id:item.id}})
-      }
+      // if(to.query.id){
+      //   getButtonList(to.query.id)
+      //   console.log("按钮权限3")
+      //   next()
+      // }else{
+      //   getButtonList(item.id)
+      //   console.log("按钮权限4")
+      //   next({path:to.path,query:{id:item.id}})
+      // }
+      getButtonList(item.url)
+      next()
     }else{
-      console.log("按钮权限5")
+      // console.log("按钮权限5")
       next()
       NProgress.done()
     }

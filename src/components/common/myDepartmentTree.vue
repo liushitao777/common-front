@@ -94,7 +94,7 @@ export default {
           parentId: '0',
           parentName: '无'
         }
-        this.$emit("getOrgParent", queryData);
+        this.$emit("getDepartmentParent", queryData);
       }else{
         this.departmentName = this.data.departName;
         queryData = {

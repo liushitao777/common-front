@@ -482,8 +482,8 @@
        */
       openDepartmentAdd() {
         this.isShowDepartment = true
-        this.departmentForm.orgCode = this.orgForm.orgCode
-        this.departmentForm.orgName = this.orgForm.orgName
+        this.departmentForm.orgCode = this.orgFormForDetail.orgCode
+        this.departmentForm.orgName = this.orgFormForDetail.orgName
         this.departmentTitle = "新增部门"
       },
       /**
