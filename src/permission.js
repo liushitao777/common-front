@@ -14,6 +14,7 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 const whiteList = ['/login', '/dataResource', '/dataResourceDetail', '/analysis'] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
+  console.log("to", to.path)
   // 根据权限菜单动态添加路由
   // start progress bar
   NProgress.start()
@@ -49,7 +50,7 @@ router.beforeEach(async(to, from, next) => {
       }
       // 判断页面权限
       if (!pageAuth(to, from, next)) {
-        next("/404")
+        // next("/404")
       }
       //按钮权限
       buttonAuth(to, from, next)
