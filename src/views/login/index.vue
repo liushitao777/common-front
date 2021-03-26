@@ -117,6 +117,10 @@
       margin-top: 4vh;
       margin-left: 6vh;
       display: flex;
+      p{
+        margin: 0;
+        padding: 0;
+      }
 
       .logoImg {
         width: 19vh;

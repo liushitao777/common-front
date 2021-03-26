@@ -50,55 +50,21 @@
 </template>
 
 <script>
-  import router from "../router"
-  import homeApi from "../api/homeApi"
   export default {
     name: "Index",
+    computed: {
+      menuList() {
+        return this.$store.state.menu.menuList.back
+      }
+    },
     data() {
       return {
-        menuList: [],
         editableTabsValue: "",
         editableTabs: [], // 结构：{name: this.$router.name, path: this.$router.path}
         activePath: ''
       }
     },
-    mounted() {
-      console.log('菜单页面')
-      this.getMenuList()
-      this.editableTabs.push({
-        name: this.$route.name,
-        path: this.$route.path
-      })
-      this.editableTabsValue = this.$route.name
-      router.afterEach((to, form) => {
-        if (!this.editableTabs.find(item => item.path === to.path)) {
-          this.editableTabs.push({
-            name: to.name,
-            path: to.path
-          })
-        }
-        this.editableTabsValue = to.name
-      })
-    },
     methods: {
-      getMenuList() {
-        homeApi.loadUserMenus({
-          includeButtons: true
-        }).then(data => {
-          // this.menuList = this.menuList1
-          this.menuList = data.data.data.back;
-          if (this.$route.path == '/indexPage') {
-            this.activePath = '/indexPage'
-          } else {
-            this.activePath = this.$route.fullPath
-          }
-        }).catch(e => {
-          this.$message.error({
-            message: e.message ? e.message : e,
-            center: true
-          })
-        })
-      },
       select(index, indexPath) {
       },
       open(index) {
@@ -110,9 +76,7 @@
           this.$router.push({
             path: temList[0].children[0].url
           })
-          // this.$router.push(temList[0].children[0].url)
         } else {
-          // this.$router.push(temList[0].url)
           this.activePath = temList[0].url
           this.$router.push({
             path: temList[0].url

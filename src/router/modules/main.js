@@ -1,7 +1,7 @@
 export default [
   {
     path: '/index',
-    name: "首页",
+    name: "layout",
     redirect: "/indexPage",
     component: () => import('@/views/index'),
     hidden: true,

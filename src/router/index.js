@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Main from './modules/main'
-import homeApi from '../api/homeApi'
-import config from '../config/config'
 
 Vue.use(Router)
 
@@ -38,7 +36,8 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: config.url === '/ses-platform'?'/indexPage':'/largeScreen',
+    redirect: '/indexPage',
+    name: "layout",
     children: Main
   },
   {
@@ -63,62 +62,62 @@ const createRouter = () => new Router({
 })
 const router = createRouter()
 
-async function getRouterList(){ //获取菜单
-  let routeList;
-  await homeApi.loadUserMenus({
-    includeButtons : true
-  }).then(data => {
-    let res=data.data.data.back;
-    routeList = res;
-  }).catch(e => {
-      console.log({message: e.message ? e.message : e, center: true})
-  })
-  return routeList
-}
-async function getButtonList(id){ //获取按钮权限
-  homeApi.getButtonByMenusUrl({id}).then(data => {
-    // this.menuList = this.menuList1
-    window.localStorage.setItem('btnList', JSON.stringify(data.data.data))
-    if(!(data.data.data)){
-      window.localStorage.setItem('btnList', JSON.stringify([]))
-    }
-  }).catch(e => {
-      this.$message.error({message: e.message ? e.message : e, center: true})
-  })
-}
-getRouterList().then(routeList=>{
-  router.beforeEach((to, from, next)=>{
-    if(!routeList){
-       window.location.reload()
-    }
-    routeList.map(item=>{
-      if(item.children){
-        item.children.map(cItem=>{
-          if(cItem.url==to.path){
-            if(to.query.id){
-              getButtonList(to.query.id)
-              next()
-            }else{
-              getButtonList(cItem.id)
-              next({path:to.path,query:{id:cItem.id}})
-            }
-          }
-        })
-      }else if(item.url==to.path){
-        if(to.query.id){
-          getButtonList(to.query.id)
-          next()
-        }else{
-          getButtonList(item.id)
-          next({path:to.path,query:{id:item.id}})
-        }
-      }else{
-        // next()
-        NProgress.done()
-      }
-    })
-  })
-});
+// async function getRouterList(){ //获取菜单
+//   let routeList;
+//   await homeApi.loadUserMenus({
+//     includeButtons : true
+//   }).then(data => {
+//     let res=data.data.data.back;
+//     routeList = res;
+//   }).catch(e => {
+//       console.log({message: e.message ? e.message : e, center: true})
+//   })
+//   return routeList
+// }
+// async function getButtonList(id){ //获取按钮权限
+//   homeApi.getButtonByMenusUrl({id}).then(data => {
+//     // this.menuList = this.menuList1
+//     window.localStorage.setItem('btnList', JSON.stringify(data.data.data))
+//     if(!(data.data.data)){
+//       window.localStorage.setItem('btnList', JSON.stringify([]))
+//     }
+//   }).catch(e => {
+//       this.$message.error({message: e.message ? e.message : e, center: true})
+//   })
+// }
+// getRouterList().then(routeList=>{
+//   router.beforeEach((to, from, next)=>{
+//     if(!routeList){
+//        window.location.reload()
+//     }
+//     routeList.map(item=>{
+//       if(item.children){
+//         item.children.map(cItem=>{
+//           if(cItem.url==to.path){
+//             if(to.query.id){
+//               getButtonList(to.query.id)
+//               next()
+//             }else{
+//               getButtonList(cItem.id)
+//               next({path:to.path,query:{id:cItem.id}})
+//             }
+//           }
+//         })
+//       }else if(item.url==to.path){
+//         if(to.query.id){
+//           getButtonList(to.query.id)
+//           next()
+//         }else{
+//           getButtonList(item.id)
+//           next({path:to.path,query:{id:item.id}})
+//         }
+//       }else{
+//         // next()
+//         NProgress.done()
+//       }
+//     })
+//   })
+// });
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
