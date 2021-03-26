@@ -153,7 +153,7 @@ function buttonAuth(to, from, next) {
       //   console.log("按钮权限4")
       //   next({path:to.path,query:{id:item.id}})
       // }
-      getButtonList(item.url, next)
+      getButtonList(item.id, next)
     }else{
       // console.log("按钮权限5")
       next()
