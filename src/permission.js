@@ -127,39 +127,24 @@ function getRouteMap(sourceList, targList) {
 function buttonAuth(to, from, next) {
   console.log("按钮权限")
   // 根据页面id获取按钮权限
+  let targId = null
   store.state.menu.menuList.back.map(item=>{
     if(item.children){
       item.children.map(cItem=>{
         if(cItem.url==to.path){
-          // if(to.query.id){
-          //   getButtonList(to.query.id)
-          //   console.log("按钮权限1")
-          //   next()
-          // }else{
-          //   getButtonList(cItem.id)
-          //   console.log("按钮权限2")
-          //   next({path:to.path,query:{id:cItem.id}})
-          // }
-          getButtonList(cItem.id, next)
+          targId = cItem.id
         }
       })
     }else if(item.url==to.path){
-      // if(to.query.id){
-      //   getButtonList(to.query.id)
-      //   console.log("按钮权限3")
-      //   next()
-      // }else{
-      //   getButtonList(item.id)
-      //   console.log("按钮权限4")
-      //   next({path:to.path,query:{id:item.id}})
-      // }
-      getButtonList(item.id, next)
-    }else{
-      // console.log("按钮权限5")
-      next()
-      NProgress.done()
+      targId = item.id
     }
   })
+  if (targId) {
+    getButtonList(targId, next)
+  } else {
+    next()
+    NProgress.done()
+  }
   // 根据页面id获取按钮权限END
 }
 function pageAuth(to, from, next) {
